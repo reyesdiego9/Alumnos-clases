@@ -3,7 +3,16 @@ Juan Diego Reyes Zepeda
 5090-18-5233
 */
 package clases;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.util.ArrayList;
+import static javafx.application.Platform.exit;
 
 class Alumnos{
     private String nombre;
@@ -53,11 +62,102 @@ class Alumnos{
     
 }
 
-public class Clases {
-
+public class Clases extends JFrame implements ActionListener{
+    ArrayList <Alumnos> alum = new ArrayList <>();
+    JLabel nombre, apellido, n1, n2, n3, n4; 
+    JTextField nom, apell, no1, no2, no3, no4, no5;
+    JButton ingresa;
+    JPanel panel;
+    
+    public void menu(){
+        String opcion;
+        int opc;
+        do{
+            opcion = JOptionPane.showInputDialog("\tMenu"
+                    + "\n1) Ingreso de Estudiante");
+            opc = Integer.parseInt(opcion);
+            switch(opc){
+                case 1: ingreso(); break;
+            }
+        }while(opc != 1);    
+    }
     
     public static void main(String[] args) {
-       
+       Clases cd = new Clases();
+       cd.menu();
+    }
+    
+    public void ingreso(){
+        // JLabel
+        nombre = new JLabel("Nombre");
+        nombre.setBounds(10, 20, 80, 30);
+        apellido = new JLabel("Apellido");
+        apellido.setBounds(10, 60, 80, 30);
+        n1 = new JLabel("Nota 1");
+        n1.setBounds(10, 100, 80, 30);
+        n2 = new JLabel("Nota 2");
+        n2.setBounds(10, 140, 80, 30);
+        n3 = new JLabel("Nota 3");
+        n3.setBounds(10, 180, 80, 30);
+        n4 = new JLabel("Nota 4");
+        n4.setBounds(10, 220, 80, 30);
+        
+        //JTextfield
+        nom = new JTextField();
+        nom.setBounds(100, 20, 140, 30);
+        apell = new JTextField();
+        apell.setBounds(100, 60, 140, 30);
+        no1 = new JTextField();
+        no1.setBounds(100, 100, 80, 30);
+        no2 = new JTextField();
+        no2.setBounds(100, 140, 80, 30);
+        no3 = new JTextField();
+        no3.setBounds(100, 180, 80, 30);
+        no4 = new JTextField();
+        no4.setBounds(100, 220, 80, 30);
+
+        
+        ingresa = new JButton("Ingresar");
+        ingresa.setBounds(180, 255, 100, 40);
+        ingresa.addActionListener(this);
+        
+        panel = new JPanel();
+        panel.setLayout(null);
+        
+        panel.add(nombre);
+        panel.add(apellido);
+        panel.add(n1);
+        panel.add(n2);
+        panel.add(n3);
+        panel.add(n4);
+        panel.add(nom);
+        panel.add(apell);
+        panel.add(no1);
+        panel.add(no2);
+        panel.add(no3);
+        panel.add(no4);
+        panel.add(ingresa);
+        add(panel);
+        setSize(300,345);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if(ae.getSource()==ingresa){
+            capturar();
+            setVisible(false);
+        }
+    }
+    
+    public void capturar(){
+        JOptionPane.showMessageDialog(null, "Alumno Ingresado");
+        int nota1 = Integer.parseInt(no1.getText());
+        int nota2 = Integer.parseInt(no2.getText());
+        int nota3 = Integer.parseInt(no3.getText());
+        int nota4 = Integer.parseInt(no4.getText());
+        double promedio = (nota1 + nota2 + nota3 + nota4)/4;
+        alum.add(new Alumnos(nom.getText(),apell.getText(),nota1,nota2,nota3,nota4,promedio));
     }
     
 }
