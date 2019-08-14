@@ -3,6 +3,7 @@ Juan Diego Reyes Zepeda
 5090-18-5233
 */
 package clases;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -11,8 +12,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import java.util.ArrayList;
-import static javafx.application.Platform.exit;
+import javax.swing.JScrollPane;
 
 class Alumnos{
     private String nombre;
@@ -67,7 +69,8 @@ public class Clases extends JFrame implements ActionListener{
     JLabel nombre, apellido, n1, n2, n3, n4; 
     JTextField nom, apell, no1, no2, no3, no4, no5;
     JButton ingresa;
-    JPanel panel;
+    JPanel panel, panel2;
+    JTextArea datos;
     
     public void menu(){
         String opcion;
@@ -78,8 +81,9 @@ public class Clases extends JFrame implements ActionListener{
             opc = Integer.parseInt(opcion);
             switch(opc){
                 case 1: ingreso(); break;
+                case 2: mostrar(); break;
             }
-        }while(opc != 1);    
+        }while(opc > 2 || opc < 1 );    
     }
     
     public static void main(String[] args) {
@@ -140,13 +144,16 @@ public class Clases extends JFrame implements ActionListener{
         add(panel);
         setSize(300,345);
         setVisible(true);
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if(ae.getSource()==ingresa){
             capturar();
-            setVisible(false);
+            limpiar();
+            panel.setVisible(false);
+            menu();
         }
     }
     
@@ -158,6 +165,42 @@ public class Clases extends JFrame implements ActionListener{
         int nota4 = Integer.parseInt(no4.getText());
         double promedio = (nota1 + nota2 + nota3 + nota4)/4;
         alum.add(new Alumnos(nom.getText(),apell.getText(),nota1,nota2,nota3,nota4,promedio));
+    }
+    
+    public void limpiar(){
+        nom.setText("");
+        apell.setText("");
+        no1.setText("");
+        no2.setText("");
+        no3.setText("");
+        no4.setText("");
+    }
+    
+    public void mostrar(){
+        
+        datos = new JTextArea();
+
+        
+        panel2 = new JPanel();
+        panel2.setLayout(null);
+       JScrollPane scroll = new JScrollPane(datos);
+//        scroll.setBounds(10, 10, 250, 300);
+        for(int i = 0; i<alum.size(); i++){
+            datos.append("Nombre: "+alum.get(i).getNombre());
+            datos.append("\tApellido: "+alum.get(i).getApellido()+"\tNota 1: "+alum.get(i).getN1());
+            datos.append("\tNota 2: "+alum.get(i).getN2());
+            datos.append("\tNota 3: "+alum.get(i).getN3());
+            datos.append("\tNota 4: "+alum.get(i).getN4());
+            datos.append("\tPromedio: "+alum.get(i).getProm()+"\n");
+        }
+        
+       
+        
+        this.add(scroll);
+        add(panel2);
+        setSize(300,345);
+        setVisible(true);
+        panel.setVisible(false);
     }
     
 }
